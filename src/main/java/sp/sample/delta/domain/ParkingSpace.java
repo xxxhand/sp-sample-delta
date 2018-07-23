@@ -7,15 +7,11 @@ import java.util.*;
 public class ParkingSpace {
     private final List<String> USED_IDS = new ArrayList<>();
     private List<ParkingSlot> slots;
-    private Map<TrafficToolTypes, Integer> availableSlots;
 
     public List<ParkingSlot> getSlots() {
         return slots;
     }
 
-    public Map<TrafficToolTypes, Integer> getAvailableSlots() {
-        return availableSlots;
-    }
 
     public ParkingSpace() {
         this._initial();
@@ -42,7 +38,7 @@ public class ParkingSpace {
     }
 
     private void _initial() {
-        this.availableSlots = new HashMap<>();
+        Map<TrafficToolTypes, Integer> availableSlots = new HashMap<>();
         availableSlots.put(TrafficToolTypes.MOTOR, 15);
         availableSlots.put(TrafficToolTypes.CAR, 20);
         availableSlots.put(TrafficToolTypes.SMALL_BUS, 12);

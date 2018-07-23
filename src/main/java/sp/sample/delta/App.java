@@ -3,10 +3,7 @@ package sp.sample.delta;
 import sp.sample.delta.application.ParkingApplication;
 import sp.sample.delta.domain.*;
 
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +15,14 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+//        System.out.println( "Hello World!" );
 
+        runTesting();
+
+
+    }
+
+    private static void runTesting() {
         ParkingApplication parkingApplication = new ParkingApplication();
 
         List<AbstractTrafficTool> trafficTools = new ArrayList<>();
@@ -38,6 +41,7 @@ public class App
 
         parkingApplication.parking(trafficTools);
 
+        parkingApplication.calculateAvailableSlotAmount();
 
         try {
             Thread.sleep(3000);
@@ -46,20 +50,13 @@ public class App
             return;
         }
 
-        System.out.println("===================================================");
-
-
-
         List<ParkingSlot> leavingSlots = new ArrayList<>();
-        parkingApplication.getParkingSpace().getSlots().stream()
+        parkingApplication.getAllSlots().stream()
                 .filter(ParkingSlot::isBusy)
                 .forEach(leavingSlots::add);
 
         parkingApplication.leaving(leavingSlots);
 
-
-
-
-
+        parkingApplication.calculateAvailableSlotAmount();
     }
 }
