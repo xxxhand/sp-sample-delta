@@ -6,6 +6,7 @@ import sp.sample.delta.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * Hello world!
@@ -17,8 +18,10 @@ public class App
     {
 //        System.out.println( "Hello World!" );
 
-        runTesting();
+//        runTesting();
 
+        Timer timer = new Timer();
+        timer.schedule(new SimulatorTask(), 1000, 1000);
 
     }
 

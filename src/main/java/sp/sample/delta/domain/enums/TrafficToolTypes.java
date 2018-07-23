@@ -1,5 +1,7 @@
 package sp.sample.delta.domain.enums;
 
+import java.util.Random;
+
 /**
  * Created by hand on 2018/7/21.
  */
@@ -32,4 +34,8 @@ public enum TrafficToolTypes {
         this.description = description;
     }
 
+    public static TrafficToolTypes randomType() {
+        Random r = new Random();
+        return values()[r.nextInt(values().length)];
+    }
 }
