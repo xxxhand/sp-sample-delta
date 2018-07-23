@@ -1,4 +1,4 @@
-package sp.sample.delta.domain;
+package sp.sample.delta.domain.enums;
 
 /**
  * Created by hand on 2018/7/21.

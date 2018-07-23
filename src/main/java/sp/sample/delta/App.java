@@ -1,10 +1,11 @@
 package sp.sample.delta;
 
-import sp.sample.delta.domain.AbstractTrafficTool;
-import sp.sample.delta.domain.Car;
-import sp.sample.delta.domain.Motorcycle;
-import sp.sample.delta.domain.ParkingSpaceAggregate;
+import sp.sample.delta.application.ParkingApplication;
+import sp.sample.delta.domain.*;
 
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,32 +16,48 @@ import java.util.List;
  */
 public class App 
 {
-    private static final ParkingSpaceAggregate parkingSpace = new ParkingSpaceAggregate();
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
 
+        ParkingApplication parkingApplication = new ParkingApplication();
+
         List<AbstractTrafficTool> trafficTools = new ArrayList<>();
 
         AbstractTrafficTool trafficTool = new Car();
-        trafficTool.setEnterTime(LocalTime.now().toNanoOfDay());
-        trafficTool.setTotalFee(0);
 
         trafficTools.add(trafficTool);
 
         trafficTool = new Car();
-        trafficTool.setEnterTime(LocalTime.now().toNanoOfDay());
-        trafficTool.setTotalFee(0);
 
         trafficTools.add(trafficTool);
 
         trafficTool = new Motorcycle();
-        trafficTool.setEnterTime(LocalTime.now().toNanoOfDay());
-        trafficTool.setTotalFee(0);
 
         trafficTools.add(trafficTool);
 
-        parkingSpace.parking(trafficTools);
+        parkingApplication.parking(trafficTools);
+
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+            return;
+        }
+
+        System.out.println("===================================================");
+
+
+
+        List<ParkingSlot> leavingSlots = new ArrayList<>();
+        parkingApplication.getParkingSpace().getSlots().stream()
+                .filter(ParkingSlot::isBusy)
+                .forEach(leavingSlots::add);
+
+        parkingApplication.leaving(leavingSlots);
+
+
 
 
 

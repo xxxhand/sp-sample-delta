@@ -1,8 +1,9 @@
 package sp.sample.delta.domain;
 
-import java.time.LocalTime;
+import sp.sample.delta.domain.enums.TrafficToolTypes;
+
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 /**
  * Created by hand on 2018/7/21.
@@ -11,31 +12,44 @@ public abstract class AbstractTrafficTool {
 
     TrafficToolTypes toolType;
     private int totalFee;
-    private long enterTime;
+    private LocalDateTime enterTime;
+    private LocalDateTime leftTime;
 
     public TrafficToolTypes getToolType() {
         return toolType;
     }
 
-    public int getTotalFee() {
-        return totalFee;
-    }
 
     public void setTotalFee(int totalFee) {
         this.totalFee = totalFee;
     }
 
-    public long getEnterTime() {
+    public LocalDateTime getEnterTime() {
         return enterTime;
     }
 
-    public void setEnterTime(long enterTime) {
-        this.enterTime = enterTime;
+    public LocalDateTime getLeftTime() {
+        return leftTime;
     }
 
     public String getFormattedEnterTime() {
-        LocalTime time = LocalTime.ofNanoOfDay(this.enterTime);
         DateTimeFormatter f = DateTimeFormatter.ofPattern("HH:mm");
-        return time.format(f);
+        return this.enterTime.format(f);
     }
+
+    public String getFormattedLeftTime() {
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("HH:mm");
+        return this.leftTime.format(f);
+    }
+
+    public void parking() {
+        this.enterTime = LocalDateTime.now();
+        this.totalFee = 0;
+    }
+
+    public void leaving() {
+        this.leftTime = LocalDateTime.now();
+    }
+
+
 }

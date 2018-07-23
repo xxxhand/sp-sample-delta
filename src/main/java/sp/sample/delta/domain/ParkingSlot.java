@@ -1,18 +1,23 @@
 package sp.sample.delta.domain;
 
 
-import java.util.Date;
+import sp.sample.delta.domain.enums.TrafficToolTypes;
 
 /**
  * Created by hand on 2018/7/21.
  */
 public class ParkingSlot {
     private String id;
+    private TrafficToolTypes toolType;
     private AbstractTrafficTool trafficTool;
     private boolean isBusy;
 
     public String getId() {
         return id;
+    }
+
+    public TrafficToolTypes getToolType() {
+        return toolType;
     }
 
     public AbstractTrafficTool getTrafficTool() {
@@ -27,6 +32,7 @@ public class ParkingSlot {
 
     private ParkingSlot(Builder builder) {
         this.id = builder.id;
+        this.toolType = builder.toolType;
         this.trafficTool = builder.trafficTool;
         this.isBusy = builder.isBusy;
     }
@@ -45,6 +51,7 @@ public class ParkingSlot {
 
     public static class Builder {
         private String id;
+        private TrafficToolTypes toolType;
         private AbstractTrafficTool trafficTool;
         private boolean isBusy;
 
@@ -53,8 +60,8 @@ public class ParkingSlot {
             return this;
         }
 
-        public Builder setTrafficTool(AbstractTrafficTool trafficTool) {
-            this.trafficTool = trafficTool;
+        public Builder setToolType(TrafficToolTypes toolType) {
+            this.toolType = toolType;
             return this;
         }
 
