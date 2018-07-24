@@ -2,6 +2,8 @@ package sp.sample.delta.domain;
 
 import sp.sample.delta.domain.enums.TrafficToolTypes;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ParkingSpace {
@@ -33,7 +35,7 @@ public class ParkingSpace {
                 .orElseThrow(() -> new Exception(String.format("A %s as entered at %s, but left because there are no " +
                                 "vacant %s parking spaces",
                         trafficTool.getToolType().getDescription(),
-                        trafficTool.getFormattedEnterTime(),
+                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm")),
                         trafficTool.getToolType().getDescription())));
     }
 

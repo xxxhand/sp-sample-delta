@@ -4,6 +4,7 @@ import sp.sample.delta.domain.AbstractTrafficTool;
 import sp.sample.delta.domain.enums.TrafficToolTypes;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -21,15 +22,17 @@ public class ParkingService {
     public int calculateTotalFee(AbstractTrafficTool trafficTool) {
         Integer slotFee = this.FEE_MAP.get(trafficTool.getToolType());
 
-        long parkingMinutes = Duration.between(trafficTool.getEnterTime(), trafficTool.getLeftTime()).toMinutes();
-        double totalHours = new BigDecimal(parkingMinutes / 60)
-                .setScale(1, BigDecimal.ROUND_HALF_UP)
+        String parkingMinutes = String.valueOf(Duration.between(trafficTool.getEnterTime(), trafficTool.getLeftTime()).getSeconds());
+        String basicCalculateAmount = "60";
+
+
+        double totalHours = new BigDecimal(Double.valueOf(parkingMinutes) / Double.valueOf(basicCalculateAmount))
+                .setScale(0, RoundingMode.CEILING)
                 .doubleValue();
 
         if (totalHours == 0) {
             totalHours = 1;
         }
-
 
 
         return (int) (slotFee * totalHours);

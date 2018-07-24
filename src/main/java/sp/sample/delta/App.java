@@ -4,7 +4,11 @@ import sp.sample.delta.application.ParkingApplication;
 import sp.sample.delta.domain.*;
 
 
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 
@@ -23,42 +27,35 @@ public class App
         Timer timer = new Timer();
         timer.schedule(new SimulatorTask(), 1000, 1000);
 
+
     }
 
     private static void runTesting() {
         ParkingApplication parkingApplication = new ParkingApplication();
 
-        List<AbstractTrafficTool> trafficTools = new ArrayList<>();
 
         AbstractTrafficTool trafficTool = new Car();
+        parkingApplication.parking(trafficTool);
 
-        trafficTools.add(trafficTool);
+        trafficTool = new SmallBus();
+        parkingApplication.parking(trafficTool);
 
-        trafficTool = new Car();
-
-        trafficTools.add(trafficTool);
-
-        trafficTool = new Motorcycle();
-
-        trafficTools.add(trafficTool);
-
-        parkingApplication.parking(trafficTools);
+        trafficTool = new SmallBus();
+        parkingApplication.parking(trafficTool);
 
         parkingApplication.calculateAvailableSlotAmount();
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(15000);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             return;
         }
 
-        List<ParkingSlot> leavingSlots = new ArrayList<>();
         parkingApplication.getAllSlots().stream()
                 .filter(ParkingSlot::isBusy)
-                .forEach(leavingSlots::add);
+                .forEach(parkingApplication::leaving);
 
-        parkingApplication.leaving(leavingSlots);
 
         parkingApplication.calculateAvailableSlotAmount();
     }

@@ -1,16 +1,14 @@
 package sp.sample.delta;
 
 import sp.sample.delta.application.ParkingApplication;
-import sp.sample.delta.domain.AbstractTrafficTool;
-import sp.sample.delta.domain.Car;
-import sp.sample.delta.domain.Motorcycle;
-import sp.sample.delta.domain.SmallBus;
+import sp.sample.delta.domain.*;
 import sp.sample.delta.domain.enums.TrafficToolTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 /**
  * Created by hand on 2018/7/23.
@@ -22,13 +20,19 @@ public class SimulatorTask extends TimerTask {
     public void run() {
 //        System.out.println("Timer run " + initialCounter);
         if (this.initialCounter % 20 == 0) {
-            this._startLeaving();
+            System.out.println("------------------ Start leaving ------------------");
+            this._getRandomSlotInRange(0, 2).forEach(this.PARKING_APP::leaving);
+            System.out.println("------------------ End leaving --------------------");
         }
         if (this.initialCounter % 10 == 0) {
+            System.out.println("------------------ Start parking ------------------");
             this._startParking();
+            System.out.println("------------------ End parking --------------------");
         }
         if (this.initialCounter % 15 == 0) {
+            System.out.println("------------------ Start counting ------------------");
             this.PARKING_APP.calculateAvailableSlotAmount();
+            System.out.println("------------------ End counting --------------------");
         }
         this.initialCounter++;
         if (this.initialCounter > 60) {
@@ -41,9 +45,8 @@ public class SimulatorTask extends TimerTask {
         if (r == 0) {
             return;
         }
-        List<AbstractTrafficTool> waitTools = new ArrayList<>();
         AbstractTrafficTool trafficTool = null;
-        for (int i = 0; i <= r; i++) {
+        for (int i = 0; i <= r - 1; i++) {
             TrafficToolTypes toolType = TrafficToolTypes.randomType();
             switch (toolType) {
                 case MOTOR:
@@ -56,11 +59,11 @@ public class SimulatorTask extends TimerTask {
                     trafficTool = new SmallBus();
                     break;
             }
-            waitTools.add(trafficTool);
+            this.PARKING_APP.parking(trafficTool);
+
         }
-        this.PARKING_APP.parking(waitTools);
     }
-    private void _startLeaving() {}
+
     private int _getRandomNumberInRange(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");
@@ -69,5 +72,30 @@ public class SimulatorTask extends TimerTask {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
 
+    }
+
+    private List<ParkingSlot> _getRandomSlotInRange(int min, int max) {
+        List<ParkingSlot> leavingSlots = new ArrayList<>();
+        int r = this._getRandomNumberInRange(min, max);
+        if (r == 0) {
+            return leavingSlots;
+        }
+        List<ParkingSlot> busySlots = this.PARKING_APP.getAllSlots().stream()
+                .filter(ParkingSlot::isBusy)
+                .collect(Collectors.toList());
+        if (busySlots == null || busySlots.isEmpty()) {
+            return leavingSlots;
+        }
+
+        ParkingSlot slot;
+        Random random = new Random();
+        for (int i = 0; i <= r - 1; i++) {
+            int randomIndex = random.nextInt(busySlots.size());
+            slot = busySlots.get(randomIndex);
+            leavingSlots.add(slot);
+            busySlots.remove(randomIndex);
+        }
+
+        return leavingSlots;
     }
 }

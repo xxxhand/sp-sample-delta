@@ -32,15 +32,6 @@ public abstract class AbstractTrafficTool {
         return leftTime;
     }
 
-    public String getFormattedEnterTime() {
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("HH:mm");
-        return this.enterTime.format(f);
-    }
-
-    public String getFormattedLeftTime() {
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("HH:mm");
-        return this.leftTime.format(f);
-    }
 
     public void parking() {
         this.enterTime = LocalDateTime.now();
