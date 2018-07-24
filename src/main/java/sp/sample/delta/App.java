@@ -3,13 +3,6 @@ package sp.sample.delta;
 import sp.sample.delta.application.ParkingApplication;
 import sp.sample.delta.domain.*;
 
-
-import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Timer;
 
 /**

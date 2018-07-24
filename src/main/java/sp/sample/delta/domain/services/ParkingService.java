@@ -6,7 +6,6 @@ import sp.sample.delta.domain.enums.TrafficToolTypes;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 

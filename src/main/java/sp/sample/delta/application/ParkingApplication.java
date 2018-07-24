@@ -9,9 +9,7 @@ import sp.sample.delta.domain.services.ParkingService;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ParkingApplication {
     private ParkingSpace parkingSpace;

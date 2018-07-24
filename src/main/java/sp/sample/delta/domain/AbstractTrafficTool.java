@@ -3,7 +3,6 @@ package sp.sample.delta.domain;
 import sp.sample.delta.domain.enums.TrafficToolTypes;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by hand on 2018/7/21.
