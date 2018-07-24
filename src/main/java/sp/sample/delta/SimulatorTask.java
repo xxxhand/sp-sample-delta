@@ -3,6 +3,7 @@ package sp.sample.delta;
 import sp.sample.delta.application.ParkingApplication;
 import sp.sample.delta.domain.*;
 import sp.sample.delta.domain.enums.TrafficToolTypes;
+import sp.sample.delta.domain.factories.TrafficToolFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public class SimulatorTask extends TimerTask {
     private final ParkingApplication PARKING_APP = new ParkingApplication();
+    private final TrafficToolFactory factory = new TrafficToolFactory();
     private long initialCounter = 1;
     @Override
     public void run() {
@@ -45,22 +47,8 @@ public class SimulatorTask extends TimerTask {
         if (r == 0) {
             return;
         }
-        AbstractTrafficTool trafficTool = null;
         for (int i = 0; i <= r - 1; i++) {
-            TrafficToolTypes toolType = TrafficToolTypes.randomType();
-            switch (toolType) {
-                case MOTOR:
-                    trafficTool = new Motorcycle();
-                    break;
-                case CAR:
-                    trafficTool = new Car();
-                    break;
-                case SMALL_BUS:
-                    trafficTool = new SmallBus();
-                    break;
-            }
-            this.PARKING_APP.parking(trafficTool);
-
+            this.PARKING_APP.parking(factory.create(TrafficToolTypes.randomType()));
         }
     }
 
